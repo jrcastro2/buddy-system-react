@@ -1,0 +1,28 @@
+/*******************************
+         Site Overrides
+*******************************/
+
+/* Redefine blue color */
+.ui.inverted.menu .blue.active.item, .ui.inverted.blue.menu {
+    background-color: #90CCF4;
+}
+
+.ui.secondary.inverted.menu .link.item, .ui.secondary.inverted.menu a.item{
+    color: black !important;
+}
+
+.ui.secondary.inverted.menu .dropdown.item:hover, .ui.secondary.inverted.menu .link.item:hover, .ui.secondary.inverted.menu a.item:hover {
+    color: black !important;
+}
+
+.ui.inverted.menu .item {
+    color: black !important;
+}
+
+.ui.menu:not(.vertical) .item>.button {
+    font-size: 0.8em;
+}
+
+.ui.massive.menu .item{
+    font-size: 0.8em;
+}
