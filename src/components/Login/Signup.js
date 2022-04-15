@@ -6,8 +6,8 @@ export class SignUp extends React.Component {
   render() {
     return (
       <div className="login full-page">
-        <Container>
-          <div>
+        <Container className="rel-pt-5">
+          <div className="site-logo">
             <h1>BS</h1>
           </div>
           <div className="login-box">

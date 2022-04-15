@@ -30,7 +30,7 @@ export class Login extends React.Component {
 
     return (
       <div className="login full-page">
-        <Container>
+        <Container className="rel-pt-5">
           <div className="site-logo">
             <h1>BS</h1>
           </div>

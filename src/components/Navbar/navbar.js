@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Icon, Image, Menu, Sidebar } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { Media } from "../Media/media";
 import PropTypes from "prop-types";
 
@@ -64,9 +65,9 @@ const NavBarDesktop = (props) => {
     <Menu color="blue" size="massive" fixed="top" inverted secondary>
       <Container>
         <Menu.Item>
-          <big>
-            <b>BS</b>
-          </big>
+          <Link to="/">
+            <big>BS</big>
+          </Link>
         </Menu.Item>
 
         <Menu.Menu position="left">
@@ -114,7 +115,7 @@ export class NavBar extends React.Component {
     const { visible } = this.state;
 
     return (
-      <div>
+      <>
         <Media at="mobile">
           <NavBarMobile
             leftItems={leftItems}
@@ -133,7 +134,7 @@ export class NavBar extends React.Component {
             <NavBarChildren>{children}</NavBarChildren>
           </Container>
         </Media>
-      </div>
+      </>
     );
   }
 }

@@ -53,7 +53,7 @@ function App() {
 
   const notLoggedCmp = [
     <Link to="/login">
-      <Button color="blue" size="tiny">
+      <Button primary size="tiny">
         Log in
       </Button>
     </Link>,
@@ -63,7 +63,7 @@ function App() {
       </Button>
     </Link>,
     <Link to="/test">
-      <Button color="blue" size="tiny">
+      <Button primary size="tiny">
         test
       </Button>
     </Link>,
@@ -72,7 +72,7 @@ function App() {
   const rightItems = token ? loggedCmp : notLoggedCmp;
   return (
     <>
-      <NavBar leftItems={leftItems} rightItems={rightItems}></NavBar>
+      <NavBar leftItems={leftItems} rightItems={rightItems} />
     </>
   );
 }

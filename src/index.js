@@ -19,7 +19,9 @@ ReactDOM.render(
     <MediaContextProvider>
       <Provider store={ReduxStore}>
         <App />
-        <RoutesSwitch />
+        <div className="main full-page">
+          <RoutesSwitch />
+        </div>
       </Provider>
     </MediaContextProvider>
   </BrowserRouter>,
