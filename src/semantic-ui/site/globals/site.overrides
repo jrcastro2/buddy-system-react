@@ -63,6 +63,22 @@ a.forgot-password {
     text-align: center;
 }
 
+.display-flex {
+  display: flex;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Generator functions */
+
+.generate-margins(@max, @direction, @alias, @i: 5) when (@i =< @max) {
+  .m@{alias}-@{i} {
+    margin-@{direction}: unit(@i, px) !important;
+  }
+  .generate-margins(@max, @direction, @alias, (@i + 5));
+}
 
 .generate-relative-margins(@max, @direction, @alias, @i: 1) when (@i =< @max) {
   .rel-m@{alias}-@{i} {
@@ -77,6 +93,11 @@ a.forgot-password {
   }
   .generate-relative-padding(@max, @direction, @alias, (@i + 1));
 }
+
+.generate-margins(30, right, r);
+.generate-margins(30, left, l);
+.generate-margins(30, bottom, b);
+.generate-margins(30, top, t);
 
 .generate-relative-margins(5, right, r);
 .generate-relative-margins(5, left, l);

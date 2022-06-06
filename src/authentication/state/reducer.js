@@ -5,7 +5,9 @@ import {
   } from './actions';
   
   export const initialState = {
-    token: localStorage.getItem("token"),
+    isLoading: true,
+    isAnonymous: true,
+    data: {},
   };
   
   export default (state = initialState, action) => {
@@ -16,7 +18,7 @@ import {
         return {
           ...state,
           isLoading: false,
-          token: payload,
+          data: action.payload,
           isAnonymous: false,
         };
       case REMOVE_TOKEN:

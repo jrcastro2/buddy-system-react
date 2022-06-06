@@ -8,20 +8,49 @@ import reportWebVitals from "./reportWebVitals";
 import { MediaContextProvider } from "./components/Media/media";
 import { BrowserRouter } from "react-router-dom";
 import { configureStore } from "./store";
-import { Provider } from "react-redux";
+import { connect, Provider } from "react-redux";
 import history from "@history";
 import RoutesSwitch from "./routes/RoutesSwitch";
+import PropTypes from "prop-types";
+import { fetchUserProfile } from "@authentication/state/actions";
+import { NavBar } from "./components/Navbar";
 
 export const ReduxStore = configureStore();
 
+class FetchUserComponent extends React.Component {
+  componentDidMount() {
+    const { fetchUserProfile } = this.props;
+    fetchUserProfile();
+  }
+
+  render() {
+    const { children } = this.props;
+    return children;
+  }
+}
+
+FetchUserComponent.propTypes = {
+  children: PropTypes.node.isRequired,
+  /* REDUX */
+  fetchUserProfile: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchUserProfile: () => dispatch(fetchUserProfile()),
+});
+
+const FetchUser = connect(null, mapDispatchToProps)(FetchUserComponent);
+
 ReactDOM.render(
-  <BrowserRouter history={history}>
+  <BrowserRouter forceRefresh={true} history={history}>
     <MediaContextProvider>
       <Provider store={ReduxStore}>
-        <App />
-        <div className="main full-page">
-          <RoutesSwitch />
-        </div>
+        <FetchUser>
+          <NavBar />
+          <div className="main full-page">
+            <RoutesSwitch />
+          </div>
+        </FetchUser>
       </Provider>
     </MediaContextProvider>
   </BrowserRouter>,

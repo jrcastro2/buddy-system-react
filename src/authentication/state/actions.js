@@ -1,4 +1,4 @@
-import { authenticationService } from "../AuthenticationService";
+import { userApi } from "../../api/users/user";
 
 export const REMOVE_TOKEN = "authentication/REMOVE_TOKEN";
 export const IS_LOADING = "authentication/IS_LOADING";
@@ -56,5 +56,25 @@ export const login = (username, password) => {
           console.log(error.response.headers);
         }
       });
+  };
+};
+
+export const fetchUserProfile = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: IS_LOADING,
+    });
+    try {
+      const response = await userApi.get();
+      dispatch({
+        type: SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      // sessionManager.setAnonymous();
+      // dispatch({
+      //   type: IS_ANONYMOUS,
+      // });
+    }
   };
 };

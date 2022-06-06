@@ -27,8 +27,28 @@ class AuthenticationService {
   };
 
   logout = () => {
-    const logoutUrl = `${config.REST_ENDPOINTS_BASE_URL}/logout`;
-    window.location.replace(logoutUrl);
+    const redirectURL = `${config.UI_BASE_URL}`;
+    const token = tokenManager.getToken();
+
+    return http({
+      method: "POST",
+      url: `${config.REST_ENDPOINTS_BASE_URL}/logout`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        console.log("Logout:", response.data);
+        tokenManager.removeToken();
+        window.location.replace(redirectURL);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
   };
 }
 

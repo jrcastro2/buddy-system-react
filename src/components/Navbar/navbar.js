@@ -1,8 +1,20 @@
 import React from "react";
-import { Container, Icon, Image, Menu, Sidebar } from "semantic-ui-react";
+import {
+  Container,
+  Icon,
+  Image,
+  Menu,
+  Sidebar,
+  Button,
+  Dropdown,
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { Media } from "../Media/media";
 import PropTypes from "prop-types";
+import tokenManager from "../Login/tokenManager";
+import { http } from "@api/base";
+import { config } from "../../config/config";
+import { authenticationService } from "../../authentication/AuthenticationService";
 
 const NavBarMobile = (props) => {
   //TODO: NOT WORKING TO BE CHECKED
@@ -97,7 +109,7 @@ NavBarChildren.propTypes = {
   children: PropTypes.object.isRequired,
 };
 
-export class NavBar extends React.Component {
+export default class NavBar extends React.Component {
   state = {
     visible: false,
   };
@@ -111,8 +123,56 @@ export class NavBar extends React.Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, leftItems, rightItems } = this.props;
+    const { children, user } = this.props;
     const { visible } = this.state;
+
+    const leftItems = [
+      { as: "a", content: "Home", key: "home" },
+      { as: "a", content: "Users", key: "users" },
+    ];
+    const token = tokenManager.getToken();
+    const loggedCmp = [
+      <Dropdown button text={user ? user.username : "You"}>
+        <Dropdown.Menu>
+          <Link to="/profile">
+            <Dropdown.Item icon="user" text="Your profile" />
+          </Link>
+          <Link to="/change-password">
+            <Dropdown.Item icon="key" text="Change password" />
+          </Link>
+          <Link to="/your-onboardings">
+            <Dropdown.Item icon="child" text="Your onboardings" />
+          </Link>
+          <Link to="/teams">
+            <Dropdown.Item icon="users" text="Your teams" />
+          </Link>
+          <Dropdown.Item
+            onClick={() => authenticationService.logout()}
+            icon="sign out"
+            text="Log out"
+          />
+        </Dropdown.Menu>
+      </Dropdown>,
+    ];
+
+    const notLoggedCmp = [
+      <Link to="/login">
+        <Button primary size="tiny">
+          Log in
+        </Button>
+      </Link>,
+      <Link to="/signup">
+        <Button color="green" size="tiny">
+          Register
+        </Button>
+      </Link>,
+      <Link to="/test">
+        <Button primary size="tiny">
+          test
+        </Button>
+      </Link>,
+    ];
+    const rightItems = token ? loggedCmp : notLoggedCmp;
 
     return (
       <>
@@ -141,10 +201,10 @@ export class NavBar extends React.Component {
 
 NavBar.propTypes = {
   children: PropTypes.object,
-  leftItems: PropTypes.array.isRequired,
-  rightItems: PropTypes.array.isRequired,
+  user: PropTypes.object,
 };
 
 NavBar.defaultProps = {
   children: undefined,
+  user: undefined,
 };
