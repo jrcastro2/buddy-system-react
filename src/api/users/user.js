@@ -3,6 +3,8 @@ import _has from "lodash/has";
 import tokenManager from "../../components/Login/tokenManager";
 import { config } from "../../config/config";
 
+const usersURL = `${config.REST_ENDPOINTS_BASE_URL}/users`;
+
 const get = async () => {
   const userURL = "/me";
 
@@ -13,7 +15,6 @@ const get = async () => {
       Authorization: "Bearer " + token,
     },
   });
-  console.log(res);
   //   if (_has(res, 'data.id')) {
   //     res.data.id = res.data.id.toString();
   //   }
@@ -33,14 +34,10 @@ const update = async (userId, payload) => {
     },
     data: payload,
   })
-    .then((response) => {
-      console.log("UPdated:", response.data);
-    })
+    .then((response) => {})
     .catch((error) => {
       if (error.response) {
-        console.log(error.response);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        console.error(error.response);
       }
     });
 
@@ -59,15 +56,66 @@ const changePassword = async (userId, payload) => {
       Authorization: "Bearer " + token,
     },
     data: payload,
-  }).then((response) => {
-    console.log("updated:", response.data);
-  });
+  }).then((response) => {});
 
   return res;
+};
+
+const userSearch = async (searchQuery) => {
+  const usersSearch = `${usersURL}/search`;
+
+  const token = tokenManager.getToken();
+
+  const response = await http({
+    method: "GET",
+    url: usersSearch,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    params: {
+      q: searchQuery,
+    },
+  });
+
+  return response.data;
+};
+
+const createUser = async (payload) => {
+  const token = tokenManager.getToken();
+
+  const response = await http({
+    method: "POST",
+    url: usersURL,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: payload,
+  });
+
+  return response.data;
+};
+
+const deleteUser = async (userId) => {
+  const deleteUser = `${usersURL}/${userId}`;
+
+  const token = tokenManager.getToken();
+
+  const response = await http({
+    method: "DELETE",
+    url: deleteUser,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return response.data;
 };
 
 export const userApi = {
   get: get,
   update: update,
   changePassword: changePassword,
+  search: userSearch,
+  create: createUser,
+  delete: deleteUser,
 };

@@ -28,7 +28,6 @@ const NavBarMobile = (props) => {
         as={Menu}
         animation="overlay"
         icon="labeled"
-        inverted
         items={leftItems}
         vertical
         visible={visible}
@@ -38,7 +37,7 @@ const NavBarMobile = (props) => {
         onClick={onPusherClick}
         style={{ minHeight: "100vh" }}
       >
-        <Menu fixed="top" inverted>
+        <Menu fixed="top">
           <Menu.Item>
             <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
           </Menu.Item>
@@ -84,7 +83,7 @@ const NavBarDesktop = (props) => {
 
         <Menu.Menu position="left">
           {leftItems.map((item) => (
-            <Menu.Item key={item.key} {...item} />
+            <Menu.Item>{item}</Menu.Item>
           ))}
         </Menu.Menu>
 
@@ -125,12 +124,27 @@ export default class NavBar extends React.Component {
   render() {
     const { children, user } = this.props;
     const { visible } = this.state;
-
-    const leftItems = [
-      { as: "a", content: "Home", key: "home" },
-      { as: "a", content: "Users", key: "users" },
-    ];
     const token = tokenManager.getToken();
+
+    const leftItems = token
+      ? [
+          <Link as="a" to="/teams">
+            Teams
+          </Link>,
+          <Link as="a" to="/roles">
+            Roles
+          </Link>,
+          <Link as="a" to="/templates">
+            Templates
+          </Link>,
+          <Link as="a" to="/onboardings">
+            Onboardings
+          </Link>,
+          <Link as="a" to="/users">
+            Users
+          </Link>,
+        ]
+      : [];
     const loggedCmp = [
       <Dropdown button text={user ? user.username : "You"}>
         <Dropdown.Menu>
@@ -140,12 +154,12 @@ export default class NavBar extends React.Component {
           <Link to="/change-password">
             <Dropdown.Item icon="key" text="Change password" />
           </Link>
-          <Link to="/your-onboardings">
+          <Link to="/my/onboardings">
             <Dropdown.Item icon="child" text="Your onboardings" />
           </Link>
-          <Link to="/teams">
+          {/* <Link to="/teams">
             <Dropdown.Item icon="users" text="Your teams" />
-          </Link>
+          </Link> */}
           <Dropdown.Item
             onClick={() => authenticationService.logout()}
             icon="sign out"
@@ -164,11 +178,6 @@ export default class NavBar extends React.Component {
       <Link to="/signup">
         <Button color="green" size="tiny">
           Register
-        </Button>
-      </Link>,
-      <Link to="/test">
-        <Button primary size="tiny">
-          test
         </Button>
       </Link>,
     ];

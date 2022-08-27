@@ -13,15 +13,12 @@ class AuthenticationService {
     return http
       .post(loginUrl, data)
       .then((response) => {
-        console.log("setting token:", response.data.access_token);
         tokenManager.saveToken(response.data.access_token);
         window.location.replace(`${config.UI_BASE_URL}`);
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.error(error.response);
         }
       });
   };
@@ -38,15 +35,12 @@ class AuthenticationService {
       },
     })
       .then((response) => {
-        console.log("Logout:", response.data);
         tokenManager.removeToken();
         window.location.replace(redirectURL);
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.error(error.response);
         }
       });
   };

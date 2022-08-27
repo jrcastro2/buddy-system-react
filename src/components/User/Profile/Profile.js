@@ -12,7 +12,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userApi } from "../../../api/users/user";
-import { ErrorMessage } from "../../Error/error";
+import { ValidationErrorMessage } from "../../Error/error";
 
 const schema = yup
   .object({
@@ -66,7 +66,7 @@ export default function ProfileCmp(props) {
       </Header>
       <Divider />
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <ErrorMessage errors={errors} />
+        <ValidationErrorMessage errors={errors} />
         <Form.Field disabled={isLoading} error={errors?.username}>
           <label htmlFor="username">Username</label>
           <input

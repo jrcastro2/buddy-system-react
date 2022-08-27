@@ -4,7 +4,7 @@ import { Message } from "semantic-ui-react";
 import _isEmpty from "lodash/isEmpty";
 import _upperFirst from "lodash/upperFirst";
 
-export class ErrorMessage extends React.Component {
+export class ValidationErrorMessage extends React.Component {
   removeEmpty(obj) {
     return Object.fromEntries(
       Object.entries(obj).filter(([_, v]) => v != null)
@@ -27,6 +27,37 @@ export class ErrorMessage extends React.Component {
   }
 }
 
-ErrorMessage.propTypes = {
+ValidationErrorMessage.propTypes = {
   errors: PropTypes.object.isRequired,
 };
+
+class Error extends React.Component {
+  render() {
+    const { error, children } = this.props;
+    return (
+      <>
+        {!_isEmpty(error) ? (
+          <Message negative>
+            <Message.Header>Something went wrong</Message.Header>
+            <p>{error.response.data.message}</p>
+          </Message>
+        ) : (
+          // eslint-disable-next-line react/jsx-no-useless-fragment
+          <>{children}</>
+        )}
+      </>
+    );
+  }
+}
+
+Error.propTypes = {
+  error: PropTypes.object,
+  children: PropTypes.node,
+};
+
+Error.defaultProps = {
+  isLoading: false,
+  children: null,
+};
+
+export default Error;

@@ -10,24 +10,24 @@ export class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
+      isLoading: false,
     };
   }
+
+  login = async () => {
+    const { username, password } = this.state;
+    this.setState({ isLoading: true });
+    try {
+      const response = await authenticationService.login(username, password);
+      // this.onSuccess(response);
+      this.setState({ isLoading: false });
+    } catch (error) {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
-    const handleSubmit = async () => {
-      const { username, password } = this.state;
-      console.log("username", username);
-      console.log("password", password);
-
-      try {
-        const response = await authenticationService.login(username, password);
-        // this.onSuccess(response);
-        console.log(response);
-      } catch (error) {
-        console.log(error.response?.data);
-        console.log(error);
-      }
-    };
-
+    const { isLoading } = this.state;
     return (
       <div className="login full-page">
         <Container className="rel-pt-5">
@@ -37,8 +37,8 @@ export class Login extends React.Component {
           <div className="login-box">
             <h2>Log in to BuddySystem</h2>
             <div className="login-form">
-              <Form onSubmit={handleSubmit}>
-                <Form.Field id="username">
+              <Form>
+                <Form.Field disabled={isLoading} id="username">
                   <Form.Input
                     onChange={(e) =>
                       this.setState({ username: e.target.value })
@@ -48,16 +48,23 @@ export class Login extends React.Component {
                   {/* <label>Username</label>
                 <input name="username" id="username" placeholder="" /> */}
                 </Form.Field>
-                <Form.Field>
+                <Form.Field disabled={isLoading}>
                   <label>Password</label>
                   <a className="forgot-password">Forgot password?</a>
                   <Form.Input
+                    type="password"
                     onChange={(e) =>
                       this.setState({ password: e.target.value })
                     }
                   />
                 </Form.Field>
-                <Button className="default-margin-top" fluid primary>
+                <Button
+                  onClick={() => this.login()}
+                  className="default-margin-top"
+                  loading={isLoading}
+                  fluid
+                  primary
+                >
                   Log in
                 </Button>
               </Form>
@@ -66,7 +73,12 @@ export class Login extends React.Component {
                 Or
               </Divider>
               <Link to="/signup">
-                <Button className="default-margin-top" fluid positive>
+                <Button
+                  loading={isLoading}
+                  className="default-margin-top"
+                  fluid
+                  positive
+                >
                   Sign up
                 </Button>
               </Link>

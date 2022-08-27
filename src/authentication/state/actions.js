@@ -14,7 +14,6 @@ export const logout = (token) => {
       },
     })
       .then((response) => {
-        console.log("Logout:", response.data);
         dispatch({
           type: REMOVE_TOKEN,
         });
@@ -23,12 +22,10 @@ export const logout = (token) => {
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.error(error.response);
         }
       });
-    
+
     //   goTo(FrontSiteRoutes.home);
   };
 };
@@ -51,9 +48,7 @@ export const login = (username, password) => {
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.error(error.response);
         }
       });
   };

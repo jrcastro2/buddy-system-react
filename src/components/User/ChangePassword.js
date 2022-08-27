@@ -12,7 +12,7 @@ import {
   Form,
   Button,
 } from "semantic-ui-react";
-import { ErrorMessage } from "../Error/error";
+import { ValidationErrorMessage } from "../Error/error";
 import _isEmpty from "lodash/isEmpty";
 
 const schema = yup
@@ -46,7 +46,7 @@ export default function ChangePasswordCmp(props) {
       </Header>
       <Divider />
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <ErrorMessage errors={!_isEmpty(errors) ? errors : reduxErrors} />
+        <ValidationErrorMessage errors={!_isEmpty(errors) ? errors : reduxErrors} />
         <Form.Field disabled={isLoading} error={errors?.email}>
           <label htmlFor="old_password">Old password</label>
           <input

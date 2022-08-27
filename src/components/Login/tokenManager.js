@@ -5,8 +5,6 @@ export default class tokenManager {
   }
 
   static saveToken(userToken) {
-    console.log("inside set token:", userToken);
-
     localStorage.setItem("token", userToken);
   }
 
