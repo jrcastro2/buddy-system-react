@@ -10,17 +10,10 @@ class AuthenticationService {
       password: password,
     };
     const loginUrl = `${config.REST_ENDPOINTS_BASE_URL}/token`;
-    return http
-      .post(loginUrl, data)
-      .then((response) => {
-        tokenManager.saveToken(response.data.access_token);
-        window.location.replace(`${config.UI_BASE_URL}`);
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.error(error.response);
-        }
-      });
+    return http.post(loginUrl, data).then((response) => {
+      tokenManager.saveToken(response.data.access_token);
+      window.location.replace(`${config.UI_BASE_URL}`);
+    });
   };
 
   logout = () => {

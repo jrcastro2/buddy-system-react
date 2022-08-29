@@ -1,0 +1,1 @@
+export { trainingsApi } from "./trainings";

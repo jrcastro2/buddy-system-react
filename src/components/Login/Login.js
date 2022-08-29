@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Divider, Container } from "semantic-ui-react";
+import { Form, Button, Divider, Container, Message } from "semantic-ui-react";
 import { authenticationService } from "../../authentication/AuthenticationService";
+import _isEmpty from "lodash/isEmpty";
 
 export class Login extends React.Component {
   constructor(props) {
@@ -11,23 +12,23 @@ export class Login extends React.Component {
       username: "",
       password: "",
       isLoading: false,
+      error: {},
     };
   }
 
   login = async () => {
     const { username, password } = this.state;
-    this.setState({ isLoading: true });
+    this.setState({ error: {}, isLoading: true });
     try {
       const response = await authenticationService.login(username, password);
-      // this.onSuccess(response);
       this.setState({ isLoading: false });
     } catch (error) {
-      this.setState({ isLoading: false });
+      this.setState({ error: error, isLoading: false });
     }
   };
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, error } = this.state;
     return (
       <div className="login full-page">
         <Container className="rel-pt-5">
@@ -37,6 +38,14 @@ export class Login extends React.Component {
           <div className="login-box">
             <h2>Log in to BuddySystem</h2>
             <div className="login-form">
+              {!_isEmpty(error) && error.response.status === 404 && (
+                <Message negative>
+                  <Message.Header>Validation failed</Message.Header>
+                  <Message.Content>
+                    Incorrect password or username
+                  </Message.Content>
+                </Message>
+              )}
               <Form>
                 <Form.Field disabled={isLoading} id="username">
                   <Form.Input

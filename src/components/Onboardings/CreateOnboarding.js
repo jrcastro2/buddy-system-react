@@ -18,6 +18,7 @@ import OnboardingPreview from "./components/OnboardingPreview";
 import { onboardingsApi } from "../../api/onboardings/onboardings";
 import { config } from "../../config/config";
 import _isEmpty from "lodash/isEmpty";
+import { trainingsApi } from "../../api/trainings";
 
 class CreateOnboarding extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class CreateOnboarding extends React.Component {
       dataValue: undefined,
       selectedUsers: [],
       template: {},
+      selectedTrainings: [],
     };
   }
 
@@ -57,6 +59,17 @@ class CreateOnboarding extends React.Component {
     this.setState({
       onboarding: { ...onboarding, template_id: templateValue },
     });
+  };
+
+  setTraining = (trainingsValues) => {
+    const { onboarding } = this.state;
+    this.setState({
+      onboarding: { ...onboarding, trainings: trainingsValues },
+    });
+  };
+
+  setSelectedTrainings = (options) => {
+    this.setState({ selectedTrainings: options });
   };
 
   setSelectedTemplate = (options) => {
@@ -121,6 +134,7 @@ class CreateOnboarding extends React.Component {
       dataValue,
       selectedUsers,
       template,
+      selectedTrainings,
     } = this.state;
 
     return (
@@ -231,6 +245,25 @@ class CreateOnboarding extends React.Component {
                   />
                 </Form.Field>
               </Form.Group>
+              <Form.Field disabled={isLoading} error={errors?.roles}>
+                <div className="mb-5">
+                  <strong>Trainings</strong>
+                </div>
+                <SearchCmp
+                  multiple
+                  searchApi={trainingsApi.search}
+                  setValues={this.setTraining}
+                  setSelected={this.setSelectedTrainings}
+                  defaultOptions={selectedTrainings}
+                  serializeResponse={(element) => {
+                    return {
+                      key: element.id,
+                      value: element.id,
+                      text: element.name,
+                    };
+                  }}
+                />
+              </Form.Field>
             </>
           )}
 

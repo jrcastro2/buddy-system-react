@@ -71,12 +71,13 @@ NavBarMobile.defaultProps = {
 
 const NavBarDesktop = (props) => {
   const { leftItems, rightItems } = props;
+  const token = tokenManager.getToken();
 
   return (
     <Menu color="blue" size="massive" fixed="top" inverted secondary>
       <Container>
         <Menu.Item>
-          <Link to="/">
+          <Link to={token ? "/my/onboardings" : "/"}>
             <big>BS</big>
           </Link>
         </Menu.Item>
@@ -125,8 +126,7 @@ export default class NavBar extends React.Component {
     const { children, user } = this.props;
     const { visible } = this.state;
     const token = tokenManager.getToken();
-
-    const leftItems = token
+    const leftItems = user?.is_admin
       ? [
           <Link as="a" to="/teams">
             Teams
@@ -142,6 +142,9 @@ export default class NavBar extends React.Component {
           </Link>,
           <Link as="a" to="/users">
             Users
+          </Link>,
+          <Link as="a" to="/trainings">
+            Trainings
           </Link>,
         ]
       : [];

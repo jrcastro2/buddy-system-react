@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Routes } from "react-router-dom";
-import Authenticated from "../components/Authenticated/Authenticated";
+import { Authenticated } from "../components/Authenticated";
 import { LandingPage } from "../components/LandingPage";
 import { Login } from "../components/Login/Login";
 import { SignUp } from "../components/Login/Signup";
@@ -20,6 +20,11 @@ import CreateTemplate from "../components/templates/CreateTemplate";
 import TemplateDetails from "../components/templates/TemplateDetails";
 import TemplatesView from "../components/templates/TemplatesView";
 import UpdateTemplate from "../components/templates/UpdateTemplate";
+import CreateTraining from "../components/Trainings/CreateTraining";
+import EditTraining from "../components/Trainings/EditTraining";
+import ViewModule from "../components/Trainings/Modules/ViewModule";
+import ViewTraining from "../components/Trainings/ViewTraining";
+import ViewTrainings from "../components/Trainings/ViewTrainings";
 import { ChangePassword } from "../components/User";
 import { Profile } from "../components/User/Profile";
 import UserView from "../components/User/UserView";
@@ -52,7 +57,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="teams"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <TeamsView />
             </Authenticated>
           }
@@ -61,7 +66,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="teams/new"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <CreateTeam />
             </Authenticated>
           }
@@ -70,7 +75,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="teams/:teamId/edit"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <EditTeam />
             </Authenticated>
           }
@@ -79,7 +84,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="teams/:teamId"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <ViewTeam />
             </Authenticated>
           }
@@ -88,7 +93,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="roles"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <RolesView />
             </Authenticated>
           }
@@ -97,7 +102,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="roles/new"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <CreateRole />
             </Authenticated>
           }
@@ -106,7 +111,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="roles/:roleId/edit"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <EditRole />
             </Authenticated>
           }
@@ -115,7 +120,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="templates"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <TemplatesView />
             </Authenticated>
           }
@@ -124,7 +129,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="templates/new"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <CreateTemplate />
             </Authenticated>
           }
@@ -133,7 +138,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="templates/:templateId"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <TemplateDetails />
             </Authenticated>
           }
@@ -142,8 +147,53 @@ export default class RoutesSwitch extends Component {
           exact
           path="templates/:templateId/edit"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <UpdateTemplate />
+            </Authenticated>
+          }
+        />
+        <Route
+          exact
+          path="trainings"
+          element={
+            <Authenticated admin>
+              <ViewTrainings />
+            </Authenticated>
+          }
+        />
+        <Route
+          exact
+          path="trainings/:trainingId"
+          element={
+            <Authenticated>
+              <ViewTraining />
+            </Authenticated>
+          }
+        />
+        <Route
+          exact
+          path="trainings/new"
+          element={
+            <Authenticated admin>
+              <CreateTraining />
+            </Authenticated>
+          }
+        />
+        <Route
+          exact
+          path="trainings/:trainingId/edit"
+          element={
+            <Authenticated admin>
+              <EditTraining />
+            </Authenticated>
+          }
+        />
+        <Route
+          exact
+          path="modules/:moduleId"
+          element={
+            <Authenticated>
+              <ViewModule />
             </Authenticated>
           }
         />
@@ -151,7 +201,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="onboardings"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <OnboardingView />
             </Authenticated>
           }
@@ -160,7 +210,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="onboardings/:onboardingId"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <OnboardingDetailsView />
             </Authenticated>
           }
@@ -169,7 +219,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="onboardings/new"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <CreateOnboarding />
             </Authenticated>
           }
@@ -198,7 +248,7 @@ export default class RoutesSwitch extends Component {
           exact
           path="users"
           element={
-            <Authenticated>
+            <Authenticated admin>
               <UserView />
             </Authenticated>
           }
